@@ -26,6 +26,13 @@ class CapstoneTestCase(unittest.TestCase):
             "title": "bad",
 
         }
+        
+        self.test_actor_post ={
+            "name":"bader",
+            "age": 26,
+            "gender":"M"
+        }
+
         self.producer = {
             'Authorization': "bearer " + os.environ['PRODUCER']
 
@@ -102,10 +109,23 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 401)
 
     def test_director_unauthorized_post(self):
-        res = self.client().post('/movies', json=self.test_post, headers=self.assistant)
+        res = self.client().post('/movies', json=self.test_post, headers=self.director)
         data = json.loads(res.data)
         self.assertEqual(data['success'], False)
         self.assertEqual(res.status_code, 401)
+    
+    def test_assistant_unauthorized_patch(self):
+        res = self.client().patch('/movies/11',json={"title": "title test patch"}, headers=self.assistant)
+        data = json.loads(res.data)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(res.status_code, 401)
+
+    def test_director_actor_post(self):
+        res = self.client().post('/actors', json=self.test_actor_post, headers=self.director)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        
 
 
 if __name__ == "__main__":

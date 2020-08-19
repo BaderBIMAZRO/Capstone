@@ -30,6 +30,11 @@ def create_app(test_config=None):
 
     # METHOD: 'GET' movies
 
+    @app.route('/')
+    def index():
+        return jsonify({'message': 'Capstone'}
+                   )
+
     @app.route('/movies')
     def get_movies():
         try:
@@ -169,39 +174,45 @@ def create_app(test_config=None):
     @app.route('/movies/<int:id>', methods=['PATCH'])
     @requires_auth('patch:movie')
     def update_movie(token, id):
-        movie = Movie.query.filter(Movie.id == id).one_or_none()
-        if movie is None:
+        try:
+            movie = Movie.query.filter(Movie.id == id).one_or_none()
+            if movie is None:
+                abort(400)
+            if 'title' in request.json:
+                movie.title = request.json['title']
+            if 'rate' in request.json:
+                movie.rate = request.json['rate']
+            if 'release_date' in request.json:
+                release_date = request.json['release_date']
+            movie.update()
+            return jsonify({
+                'success': True,
+                'id': "movie with the id:{} has been updated ".format(id)
+            })
+        except:
             abort(400)
-        if 'title' in request.json:
-            movie.title = request.json['title']
-        if 'rate' in request.json:
-            movie.rate = request.json['rate']
-        if 'release_date' in request.json:
-            release_date = request.json['release_date']
-        movie.update()
-        return jsonify({
-            'success': True,
-            'id': "movie with the id:{} has been updated ".format(id)
-        })
 
     # METHOD: 'PATCH' actors
     @app.route('/actors/<int:id>', methods=['PATCH'])
     @requires_auth('patch:actor')
     def update_actor(token, id):
-        actor = Actor.query.filter(Actor.id == id).one_or_none()
-        if actor is None:
+        try:
+            actor = Actor.query.filter(Actor.id == id).one_or_none()
+            if actor is None:
+                abort(400)
+            if 'name' in request.json:
+                actor.name = request.json['name']
+            if 'age' in request.json:
+                actor.age = request.json['age']
+            if 'gender' in request.json:
+                actor.gender = request.json['gender']
+            actor.update()
+            return jsonify({
+                'success': True,
+                'id': "actor with the id:{} has been updated ".format(id)
+            })
+        except:
             abort(400)
-        if 'name' in request.json:
-            actor.name = request.json['name']
-        if 'age' in request.json:
-            actor.age = request.json['age']
-        if 'gender' in request.json:
-            actor.gender = request.json['gender']
-        actor.update()
-        return jsonify({
-            'success': True,
-            'id': "actor with the id:{} has been updated ".format(id)
-        })
 
     #------------------------------------------------------------------#
     #                        Erorr Handler                             #

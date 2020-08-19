@@ -1,0 +1,221 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.2
+-- Dumped by pg_dump version 12.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: actors; Type: TABLE; Schema: public; Owner: bader
+--
+
+CREATE TABLE public.actors (
+    id integer NOT NULL,
+    name character varying(50),
+    age integer,
+    gender character varying(1)
+);
+
+
+ALTER TABLE public.actors OWNER TO bader;
+
+--
+-- Name: actors_id_seq; Type: SEQUENCE; Schema: public; Owner: bader
+--
+
+CREATE SEQUENCE public.actors_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.actors_id_seq OWNER TO bader;
+
+--
+-- Name: actors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bader
+--
+
+ALTER SEQUENCE public.actors_id_seq OWNED BY public.actors.id;
+
+
+--
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner: bader
+--
+
+CREATE TABLE public.alembic_version (
+    version_num character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.alembic_version OWNER TO bader;
+
+--
+-- Name: movies; Type: TABLE; Schema: public; Owner: bader
+--
+
+CREATE TABLE public.movies (
+    id integer NOT NULL,
+    title character varying(50),
+    rate double precision,
+    release_date timestamp without time zone
+);
+
+
+ALTER TABLE public.movies OWNER TO bader;
+
+--
+-- Name: movies_id_seq; Type: SEQUENCE; Schema: public; Owner: bader
+--
+
+CREATE SEQUENCE public.movies_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.movies_id_seq OWNER TO bader;
+
+--
+-- Name: movies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bader
+--
+
+ALTER SEQUENCE public.movies_id_seq OWNED BY public.movies.id;
+
+
+--
+-- Name: actors id; Type: DEFAULT; Schema: public; Owner: bader
+--
+
+ALTER TABLE ONLY public.actors ALTER COLUMN id SET DEFAULT nextval('public.actors_id_seq'::regclass);
+
+
+--
+-- Name: movies id; Type: DEFAULT; Schema: public; Owner: bader
+--
+
+ALTER TABLE ONLY public.movies ALTER COLUMN id SET DEFAULT nextval('public.movies_id_seq'::regclass);
+
+
+--
+-- Data for Name: actors; Type: TABLE DATA; Schema: public; Owner: bader
+--
+
+COPY public.actors (id, name, age, gender) FROM stdin;
+4	Muhammed	20	M
+5	Muhammed	20	M
+6	Muhammed	20	M
+7	Johnny de	50	M
+8	Kasm	30	M
+9	sara	30	F
+10	Khalid	30	M
+11	Harrison Ford	41	M
+12	Tom Hanks	44	M
+13	Tom Cruise	36	M
+\.
+
+
+--
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: bader
+--
+
+COPY public.alembic_version (version_num) FROM stdin;
+\.
+
+
+--
+-- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: bader
+--
+
+COPY public.movies (id, title, rate, release_date) FROM stdin;
+11	The witcher	2.5	2020-05-15 23:00:00
+12	new test new	2.5	2020-05-15 23:00:00
+14	new test new	2.5	2020-05-15 23:00:00
+15	new test new	2.5	2020-05-15 23:00:00
+16	new test new	2.5	2020-05-15 23:00:00
+17	new test new	2.5	2020-05-15 23:00:00
+18	new test new	2.5	2020-05-15 23:00:00
+19	new test new	2.5	2020-05-15 23:00:00
+20	Zack and Miri	3	2020-05-15 23:00:00
+21	Youth in Revolt	2	2020-05-15 23:00:00
+22	You Will Meet a Tall Dark Stranger	4	2020-05-15 23:00:00
+23	When in Rome	4	2020-05-15 23:00:00
+24	What Happens in Vegas	3	2020-05-15 23:00:00
+25	Water For Elephants	3	2020-05-15 23:00:00
+26	WALL-E	3	2020-05-15 23:00:00
+27	Waitress	3	2020-05-15 23:00:00
+28	Waiting For Forever	4	2020-05-15 23:00:00
+29	Twilight: Breaking Dawn	4	2020-05-15 23:00:00
+30	Remember Me	3	2020-05-15 23:00:00
+31	Gnomeo and Juliet	3	2020-05-15 23:00:00
+32	Fireproof	2	2020-05-15 23:00:00
+33	Killers	2	2020-05-15 23:00:00
+34	Knocked Up	2	2020-05-15 23:00:00
+35	Beginners	2	2020-05-15 23:00:00
+36	Fast and furiose	2	2020-05-15 23:00:00
+37	curlPost	5	2020-08-15 23:00:00
+\.
+
+
+--
+-- Name: actors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bader
+--
+
+SELECT pg_catalog.setval('public.actors_id_seq', 13, true);
+
+
+--
+-- Name: movies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bader
+--
+
+SELECT pg_catalog.setval('public.movies_id_seq', 37, true);
+
+
+--
+-- Name: actors actors_pkey; Type: CONSTRAINT; Schema: public; Owner: bader
+--
+
+ALTER TABLE ONLY public.actors
+    ADD CONSTRAINT actors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: bader
+--
+
+ALTER TABLE ONLY public.alembic_version
+    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+
+
+--
+-- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: bader
+--
+
+ALTER TABLE ONLY public.movies
+    ADD CONSTRAINT movies_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

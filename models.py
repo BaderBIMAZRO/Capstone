@@ -3,6 +3,7 @@ from sqlalchemy import Column, String, Integer, Float, DateTime, create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
 import os
+import sys
 
 # setup database path 
 database_path = os.environ['DATABASE_URL']
@@ -30,17 +31,26 @@ class Movie(db.Model):
         self.title = title
         self.rate = rate
         self.release_date = release_date
+    
+    def commit(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
 
     def insert(self):
         db.session.add(self)
-        db.session.commit()
+        self.commit()
     
     def delete(self):
         db.session.delete(self)
-        db.session.commit()
+        self.commit()
 
     def update(self):
-        db.session.commit()
+        self.commit()
+    
     
     def format(self):
         return {
@@ -64,17 +74,25 @@ class Actor(db.Model):
         self.name = name
         self.age = age
         self.gender = gender
+    
+    def commit(self):
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+        finally:
+            db.session.close()
 
     def insert(self):
         db.session.add(self)
-        db.session.commit()
+        self.commit()
     
     def delete(self):
         db.session.delete(self)
-        db.session.commit()
+        self.commit()
 
     def update(self):
-        db.session.commit()
+        self.commit()
 
 
     def format(self):

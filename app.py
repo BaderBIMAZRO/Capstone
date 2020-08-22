@@ -8,6 +8,7 @@ from models import setup_db, Movie, Actor
 from sqlalchemy import exc
 from flask_cors import CORS
 from auth import AuthError, requires_auth
+import sys
 
 
 def create_app(test_config=None):
@@ -189,7 +190,7 @@ def create_app(test_config=None):
                 'success': True,
                 'id': "movie with the id:{} has been updated ".format(id)
             })
-        except:
+        except BaseException:
             abort(400)
 
     # METHOD: 'PATCH' actors
@@ -211,7 +212,7 @@ def create_app(test_config=None):
                 'success': True,
                 'id': "actor with the id:{} has been updated ".format(id)
             })
-        except:
+        except BaseException:
             abort(400)
 
     #------------------------------------------------------------------#
